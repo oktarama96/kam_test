@@ -114,8 +114,8 @@
         <li><a href="/user"><i class="fa fa-book"></i> <span>Data User</span></a></li>
 
         <li class="header">SOAL 2</li>
-        <li><a href="/transaksi/add"><i class="fa fa-book"></i> <span>Transaksi</span></a></li>
-        <li><a href="/transaksi"><i class="fa fa-book"></i> <span>Data Transaksi</span></a></li>
+        <li><a href="/transaksi"><i class="fa fa-book"></i> <span>Transaksi</span></a></li>
+        <li><a href="/transaksi/report"><i class="fa fa-book"></i> <span>Data Transaksi</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
