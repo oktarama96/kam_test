@@ -4,6 +4,8 @@
 	"description": "The CodeIgniter framework v4",
 	"homepage": "https://codeigniter.com",
 	"license": "MIT",
+	"minimum-stability": "beta",
+	"prefer-stable": true,
 	"require": {
 		"php": ">=7.2",
 		"ext-curl": "*",
