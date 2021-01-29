@@ -45,21 +45,14 @@
             
             function fetch_data(date_start='', date_end='', region=''){    
                 var tabel = $('.data-table').DataTable({
-                    serverSide: false,
-                    order : [],
-                    ajax : {
+                    "serverSide": false,
+                    "order" : [[ 0, "desc" ]],
+                    "ajax": {
                         url : "https://api-test.godig1tal.com/order/range_date_region_order",
                         type : "POST",
                         data : {region:region, date_start:date_start, date_end:date_end},
-                        dataSrc : ""
                     },
-                    columns: [
-                        {data: 'IdTransaksi', name: 'IdTransaksi'},
-                        {data: 'TglTransaksi', name: 'TglTransaksi'},
-                        {data: 'Total', name: 'Total'},
-                        {data: 'Potongan', name: 'Potongan'},
-                        {data: 'OngkosKirim', name: 'OngkosKirim'}
-                    ],
+                    "columns": [{"data": "order_id"}, {"data": "date"}, {"data": "customer_name"}, {"data": "region"}, {"data": "product_name"}, {"data": "sales"}]
                 });
             }
             
