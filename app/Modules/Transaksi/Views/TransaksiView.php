@@ -95,7 +95,25 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div id="alert"></div>
+                <?php if(!empty(session()->getFlashdata('success'))){ ?>
+                    
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Berhasil!</h4>
+                    <?php echo session()->getFlashdata('success');?>
+                </div>
+
+                <?php } ?>
+
+                <?php if(!empty(session()->getFlashdata('error'))){ ?>
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                    <?php echo session()->getFlashdata('error');?>
+                </div>
+                    
+                <?php } ?>
                     <!-- form start -->
                     <form method="post" action="/transaksi/add">
                         <div class="box-body">

@@ -31,8 +31,8 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->group('/', ['filter' => 'login'], function($routes){	
-	$routes->get('', 'HomeController::index');
+$routes->group('/', ['namespace' => 'App\Modules\Transaksi\Controllers','filter' => 'login'], function($routes){	
+	$routes->get('', 'DashboardController::index');
 	$routes->group('user', ['namespace' => 'App\Modules\User\Controllers'], function ($routes) {
 		$routes->get('/', 'UserController::index');
 	});

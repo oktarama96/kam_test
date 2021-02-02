@@ -69,94 +69,55 @@ class TransaksiController extends BaseController
 		// dd($order_id);
 		// dd($result_transaksi);
 
-		/* Endpoint */
-        $url = 'https://api-test.godig1tal.com/order/new_order';
-   
-        /* eCurl */
-		$curl = curl_init($url);
-	   
-        /* Data */
-        $data = [
-			'order_id'		=> $order_id, 
-            'customer_id'	=> $this->request->getPost('customer_id'), 
-			'product_id'	=> $this->request->getPost('product_id'), 
-			'region'		=> $this->request->getPost('region_name'), 
-			'date'			=> $tgl,
-			'sales'			=> $this->request->getPost('sales')	  
-		];
+		$client = \Config\Services::curlrequest();
 
-		// dd($data);
+        $result = $client->request('POST', 'https://api-test.godig1tal.com/order/new_order', [
+        'form_params' => [
+				'order_id'		=> $order_id, 
+				'customer_id'	=> $this->request->getPost('customer_id'),
+				'region'		=> $this->request->getPost('region_name'),  
+				'product_id'	=> $this->request->getPost('product_id'), 
+				'date'			=> $tgl,
+				'sales'			=> $this->request->getPost('sales')	 
+            ]
+        ]);
+
+        $body = $result->getBody();
+        
 		
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-   
-        /* Set JSON data to POST */
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            
-        /* Define content type */
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-            
-        /* Return json */
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            
-        /* make request */
-		$result = curl_exec($curl);
-		
-		if($result === TRUE){
+		if($result->getStatusCode() == 200){
 			session()->setFlashdata('success', 'Berhasil menambahkan data');
 			// Redirect halaman ke product
 			return redirect()->back();
 		}else{
-			echo "<script>alert('gagal')</script>";
-			$curl_error = curl_error($curl);
-			echo $result;
-			print_r($data);
+			session()->setFlashdata('error', $result->getReason());
+			// Redirect halaman ke product
+			return redirect()->back();
 		}
-             
-        /* close curl */
-        curl_close($curl);
 	}
 
 	public function showDataTransaksi(){
-		/* Endpoint */
-        $url = 'https://api-test.godig1tal.com/order/range_date_region_order';
-   
-        /* eCurl */
-		$curl = curl_init($url);
-	   
-        /* Data */
-        $data = [
-			'region'		=> $this->request->getPost('region_name'), 
-            'date_start'	=> $this->request->getPost('date_start'), 
-			'date_end'		=> $this->request->getPost('date_end')
-		];
 
-		// dd($data);
+		$client = \Config\Services::curlrequest();
+
+        $result = $client->request('POST', 'https://api-test.godig1tal.com/order/range_date_region_order', [
+        'form_params' => [
+				'region'		=> $this->request->getPost('region_name'), 
+				'date_start'	=> $this->request->getPost('date_start'), 
+				'date_end'		=> $this->request->getPost('date_end')
+            ]
+        ]);
+
+        $body = $result->getBody();
+        
 		
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-   
-        /* Set JSON data to POST */
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            
-        /* Define content type */
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-            
-        /* Return json */
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            
-        /* make request */
-		$result = curl_exec($curl);
-		
-		if($result === TRUE){
-			
-			$data = $result;
+		if($result->getStatusCode() == 200){
+			$dataa = $body;
 		}else{
-			$data = "";
+			$dataa = $result->getReason();
 		}
-             
-        /* close curl */
-        curl_close($curl);
 
-		return $data;	
+		return $dataa;
 	}
 
 	public function DataTransaksi(){
