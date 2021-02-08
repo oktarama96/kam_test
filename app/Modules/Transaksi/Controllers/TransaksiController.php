@@ -31,22 +31,18 @@ class TransaksiController extends BaseController
 		$tgl = date("Y-m-d", strtotime($now));
 
 		$order = \Config\Services::curlrequest();
-		$response = $order->request('POST', 'https://api-test.godig1tal.com/order/conditional_order', [
-						'form_params' => [
-							'date' => $tgl,
-						]
-					]);
+		$response = $order->request('POST', 'https://api-test.godig1tal.com/order/all_order');
 		$result_transaksi = json_decode($response->getBody());
 
-		$last = (count($result_transaksi->data)-1);
+		$last = (($result_transaksi->total)-1);
 
 		$count = $result_transaksi->total;
 
 		if ($count == 0){
 			$order_id = "US-".$now->getYear()."-100001";
 		} else {
+			// dd($result_transaksi->data[$last]->order_id);
 			$kode_get = $result_transaksi->data[$last]->order_id;
-			// dd($result_transaksi);
 			
 			$kodes = substr($kode_get,9);
 			$kodes++;
@@ -82,15 +78,15 @@ class TransaksiController extends BaseController
             ]
         ]);
 
-        $body = $result->getBody();
-        
+		$body = $result->getBody();
+		$result_insert = json_decode($result->getBody());
 		
-		if($result->getStatusCode() == 200){
+		if($result_insert->status == "200 - success"){
 			session()->setFlashdata('success', 'Berhasil menambahkan data');
 			// Redirect halaman ke product
 			return redirect()->back();
 		}else{
-			session()->setFlashdata('error', $result->getReason());
+			session()->setFlashdata('error', $result_insert->data->msg);
 			// Redirect halaman ke product
 			return redirect()->back();
 		}
